@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>قاضی شو</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#ececec;--bg2:#dcdcdc;--card:#fafafa;--tx:#111;--mut:#6b6b6b;--ac:#111;--acx:#f5f5f5;--bd:#cfcfcf;--sh:0 6px 20px rgba(0,0,0,.08)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e0e0e;--bg2:#1c1c1c;--card:#181818;--tx:#eee;--mut:#8f8f8f;--ac:#eee;--acx:#0e0e0e;--bd:#2c2c2c;--sh:0 6px 24px rgba(0,0,0,.5)}}
+:root[data-theme="dark"]{--bg:#0e0e0e;--bg2:#1c1c1c;--card:#181818;--tx:#eee;--mut:#8f8f8f;--ac:#eee;--acx:#0e0e0e;--bd:#2c2c2c;--sh:0 6px 24px rgba(0,0,0,.5)}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:radial-gradient(ellipse at top,var(--bg2),var(--bg) 70%) fixed;color:var(--tx);font-family:Vazirmatn,Tahoma,system-ui,sans-serif;line-height:1.75}
+.w{max-width:640px;margin:0 auto;padding:16px}
+h1{text-align:center;margin:18px 0 2px;font-size:2.2rem;letter-spacing:1px}
+h1 .g{display:block;font-size:3rem;filter:grayscale(1);animation:sw 2.4s ease-in-out infinite;transform-origin:70% 80%}
+@keyframes sw{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(14deg)}}
+.sub{text-align:center;color:var(--mut);margin-bottom:20px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:var(--sh);animation:fi .35s ease both}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h3{margin:0 0 10px;font-size:1rem;letter-spacing:.3px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+button{font:inherit;cursor:pointer;border-radius:12px;border:1px solid var(--bd);background:transparent;color:var(--tx);padding:9px 16px;transition:all .18s}
+button:hover{border-color:var(--ac)}
+button:active{transform:scale(.97)}
+button.on,button.pri{background:var(--ac);color:var(--acx);border-color:var(--ac)}
+button.pri{width:100%;padding:13px;font-weight:700;font-size:1.05rem;box-shadow:var(--sh)}
+button:disabled{opacity:.45}
+#bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;justify-content:space-between;align-items:center;padding:10px 2px 6px}
+#tm{font-size:1.5rem;font-weight:700;direction:ltr;font-variant-numeric:tabular-nums;border:1px solid var(--ac);border-radius:10px;padding:0 12px}
+#tm.low{background:var(--ac);color:var(--acx);animation:bl 1s steps(2) infinite}
+@keyframes bl{50%{opacity:.45}}
+#pb{height:3px;background:var(--bd);border-radius:3px;margin-bottom:12px;overflow:hidden;direction:ltr}
+#pb i{display:block;height:100%;width:100%;background:var(--ac);transition:width 1s linear}
+.tabs{display:flex;gap:8px;margin:10px 0;overflow-x:auto;padding-bottom:4px}
+.tabs button{white-space:nowrap;display:flex;align-items:center;gap:8px;border-radius:30px;padding:6px 14px 6px 8px}
+.av{width:28px;height:28px;border-radius:50%;background:var(--bd);color:var(--tx);display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem}
+.tabs button.on .av{background:var(--acx);color:var(--ac)}
+.msg{padding:9px 14px;border-radius:16px;margin:8px 0;max-width:88%;animation:fi .25s ease both}
+.me{background:var(--ac);color:var(--acx);margin-inline-start:auto;border-end-end-radius:4px}
+.ot{background:var(--bg2);border-end-start-radius:4px}
+.clue{border-inline-start:3px solid var(--ac);padding:7px 12px;margin:8px 0;background:var(--bg2);border-radius:8px;color:var(--tx);animation:fi .3s ease both}
+input,textarea{font:inherit;width:100%;padding:11px 14px;border-radius:12px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);outline:none}
+input:focus,textarea:focus{border-color:var(--ac)}
+.row{display:flex;gap:8px}
+.mut{color:var(--mut);font-size:.9rem}
+.hide{display:none!important}
+#splash{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;text-align:center;transition:opacity .5s}
+#splash .g{font-size:5rem;filter:grayscale(1);animation:sw 2.4s ease-in-out infinite;transform-origin:70% 80%}
+#splash h1{font-size:2.6rem;margin:10px 0}
+#splash p{color:var(--mut);animation:bl 1.4s steps(2) infinite}
+#ov{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:20px}
+#ov .card{max-width:340px;text-align:center}
+#toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--ac);color:var(--acx);padding:10px 18px;border-radius:30px;z-index:60;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90%;text-align:center}
+#toast.on{opacity:1}
+#trn{text-align:center;font-weight:700;padding:6px;border:1px dashed var(--bd);border-radius:12px;margin-bottom:10px}
+.ic{width:46px;padding:0;flex:none}
+.ic.on{background:var(--ac);color:var(--acx)}
+.code{font-size:2.4rem;letter-spacing:8px;font-weight:700;direction:ltr;text-align:center;border:2px dashed var(--ac);border-radius:14px;padding:10px;margin:10px 0}
+.caret::after{content:"▍";animation:bl .8s steps(2) infinite}
+</style>
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js" defer></script>
+<style id="ios-bubble-theme">
+:root{--line:rgba(255,255,255,.19);--muted:#b9c9da;--text:#f7fbff}
+html,body{min-height:100%;background:radial-gradient(circle at 12% 8%,rgba(98,180,255,.28),transparent 27%),radial-gradient(circle at 88% 18%,rgba(177,115,255,.25),transparent 30%),linear-gradient(145deg,#07111f,#102b4b);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",sans-serif}
+body:before,body:after{content:"";position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(2px);opacity:.7}
+body:before{width:270px;height:270px;left:-90px;top:20%;background:radial-gradient(circle,rgba(109,190,255,.42),transparent 68%);animation:gbA 12s ease-in-out infinite}
+body:after{width:330px;height:330px;right:-120px;bottom:5%;background:radial-gradient(circle,rgba(192,127,255,.35),transparent 68%);animation:gbB 15s ease-in-out infinite}
+@keyframes gbA{50%{transform:translate(45px,-35px) scale(1.08)}}@keyframes gbB{50%{transform:translate(-35px,30px) scale(.92)}}
+@keyframes pop{0%{opacity:0;transform:translateY(16px) scale(.97)}100%{opacity:1;transform:none}}
+@keyframes bob{50%{transform:translateY(-7px)}}@keyframes shine{0%{transform:translateX(-130%)}55%,100%{transform:translateX(130%)}}
+#splash,#setup,#wait,#game,#end{position:relative;z-index:1}
+#splash{min-height:100vh;display:grid;place-items:center;cursor:pointer;background:transparent!important;transition:opacity .45s}
+#splash .splash-inner{width:min(680px,calc(100% - 30px));padding:48px 28px;text-align:center;border:1px solid var(--line);border-radius:38px;background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.055));box-shadow:0 28px 80px rgba(0,0,0,.32),inset 0 1px rgba(255,255,255,.22);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);animation:pop .7s ease}
+#splash h1{font-size:clamp(44px,9vw,78px);letter-spacing:-.055em;margin:10px 0;text-shadow:0 8px 30px rgba(93,171,255,.35)}
+#splash p{color:var(--muted)}
+#splash:after{content:"برای شروع کلیک کنید";position:absolute;bottom:8%;color:#d8e7f7;opacity:.8}
+#setup,#wait,#game,#end{width:min(980px,calc(100% - 22px));margin:20px auto;padding:15px 0 50px;animation:pop .5s ease}
+.card,.panel,.box,.case,.toolbar,.topbar,.chat,.verdict,.wait-card,.setup-card{border:1px solid var(--line)!important;border-radius:28px!important;background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.055))!important;box-shadow:0 22px 60px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.18)!important;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+button{border:1px solid rgba(255,255,255,.14)!important;border-radius:18px!important;background:rgba(255,255,255,.075)!important;color:var(--text)!important;box-shadow:inset 0 1px rgba(255,255,255,.13),0 7px 20px rgba(0,0,0,.12);transition:.18s}
+button:hover{transform:translateY(-2px);background:rgba(255,255,255,.13)!important}
+button:active{transform:scale(.96)}
+button.on{background:linear-gradient(135deg,rgba(114,183,255,.36),rgba(180,140,255,.24))!important;border-color:rgba(145,202,255,.45)!important}
+#go,#fin,#send{background:linear-gradient(135deg,#5daeff,#8d78ff)!important;border:0!important;font-weight:800;position:relative;overflow:hidden}
+#go:after,#send:after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 25%,rgba(255,255,255,.3) 50%,transparent 75%);transform:translateX(-130%);animation:shine 3.5s infinite}
+input,textarea{border:1px solid var(--line)!important;border-radius:18px!important;background:rgba(0,0,0,.16)!important;color:var(--text)!important;padding:13px 16px!important;outline:none}
+input:focus,textarea:focus{border-color:rgba(115,184,255,.65)!important;box-shadow:0 0 0 4px rgba(115,184,255,.12)}
+#tabs{display:flex;gap:10px;overflow:auto;padding:5px 2px 12px;scrollbar-width:none}
+#tabs button{white-space:nowrap;padding:11px 14px!important}
+.av{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;margin-left:6px;background:linear-gradient(145deg,rgba(255,255,255,.28),rgba(255,255,255,.08))}
+.msg{max-width:86%;margin:10px 0;padding:13px 16px;border-radius:22px;line-height:1.75;animation:pop .3s ease;box-shadow:0 8px 25px rgba(0,0,0,.12)}
+.msg.me{margin-right:auto;background:linear-gradient(135deg,rgba(93,174,255,.28),rgba(122,121,255,.2));border:1px solid rgba(127,190,255,.25)}
+.msg.ot{margin-left:auto;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}
+.clue{margin:9px 0;padding:13px 15px;border-radius:18px;background:rgba(103,230,178,.09)!important;border:1px solid rgba(103,230,178,.18)!important;animation:pop .3s ease}
+#trn{border-radius:18px!important;background:rgba(103,230,178,.1)!important;border:1px solid rgba(103,230,178,.2)!important;padding:11px 14px!important}
+#wc{font-size:48px;letter-spacing:.14em;font-weight:900;color:#dff1ff;text-shadow:0 8px 30px rgba(93,174,255,.35)}
+.mut{color:var(--muted)!important}
+@media(max-width:650px){#setup,#wait,#game,#end{width:calc(100% - 14px)}.card,.panel,.box,.case,.toolbar,.topbar,.chat,.verdict,.wait-card,.setup-card{border-radius:22px!important}.msg{max-width:94%}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition:none!important}}
+</style>
+<style id="timer-bubble-theme">
+/* Timer: same glass/bubble language as the rest of the UI */
+#bar{
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  z-index:5;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:10px 4px 8px;
+  background:linear-gradient(180deg,rgba(7,17,31,.72),rgba(7,17,31,.28),transparent);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-radius:24px;
+  animation:timerBarIn .55s cubic-bezier(.2,.8,.2,1) both;
+}
+#bar > span{
+  padding:5px;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:24px;
+  background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.045));
+  box-shadow:inset 0 1px rgba(255,255,255,.16),0 12px 28px rgba(0,0,0,.18);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  animation:timerBubbleIn .65s .08s cubic-bezier(.2,.8,.2,1) both;
+}
+#tm{
+  min-width:104px;
+  height:48px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 15px;
+  border:1px solid rgba(255,255,255,.2)!important;
+  border-radius:18px!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.17),rgba(255,255,255,.055))!important;
+  color:#f7fbff!important;
+  font-size:1.45rem;
+  font-weight:850;
+  letter-spacing:.04em;
+  box-shadow:inset 0 1px rgba(255,255,255,.2),0 8px 24px rgba(0,0,0,.18);
+  text-shadow:0 4px 18px rgba(93,174,255,.35);
+  transition:background .3s,box-shadow .3s,transform .3s,border-color .3s;
+}
+#tm.low{
+  background:linear-gradient(135deg,rgba(255,103,128,.34),rgba(177,115,255,.2))!important;
+  border-color:rgba(255,145,160,.5)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.2),0 8px 28px rgba(255,80,110,.18);
+  animation:timerUrgent .85s ease-in-out infinite;
+}
+#pb{
+  height:7px;
+  margin:2px 2px 14px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+  overflow:hidden;
+  background:rgba(255,255,255,.075);
+  box-shadow:inset 0 1px rgba(0,0,0,.15),0 5px 18px rgba(0,0,0,.14);
+  animation:timerBarIn .7s .12s cubic-bezier(.2,.8,.2,1) both;
+}
+#pb i{
+  height:100%;
+  display:block;
+  width:100%;
+  border-radius:inherit;
+  background:linear-gradient(90deg,#72d7ff,#7c9cff,#a77cff);
+  box-shadow:0 0 16px rgba(103,190,255,.35);
+  transition:width 1s linear;
+  position:relative;
+  overflow:hidden;
+}
+#pb i:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);
+  transform:translateX(-100%);
+  animation:timerShimmer 2.6s linear infinite;
+}
+@keyframes timerBarIn{
+  from{opacity:0;transform:translateY(-10px) scale(.97)}
+  to{opacity:1;transform:none}
+}
+@keyframes timerBubbleIn{
+  from{opacity:0;transform:translateX(16px) scale(.9)}
+  to{opacity:1;transform:none}
+}
+@keyframes timerUrgent{
+  0%,100%{transform:scale(1);filter:saturate(1)}
+  50%{transform:scale(1.045);filter:saturate(1.25)}
+}
+@keyframes timerShimmer{
+  0%{transform:translateX(-110%)}
+  45%,100%{transform:translateX(110%)}
+}
+/* smooth exit when the game view is hidden */
+#game.hide{animation:gameOut .36s cubic-bezier(.4,0,1,1) both}
+#game:not(.hide){animation:gameIn .5s cubic-bezier(.2,.8,.2,1) both}
+#end:not(.hide){animation:endIn .5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes gameIn{
+  from{opacity:0;transform:translateY(18px) scale(.985)}
+  to{opacity:1;transform:none}
+}
+@keyframes gameOut{
+  from{opacity:1;transform:none}
+  to{opacity:0;transform:translateY(-14px) scale(.985)}
+}
+@keyframes endIn{
+  from{opacity:0;transform:translateY(20px) scale(.975)}
+  to{opacity:1;transform:none}
+}
+@media(max-width:650px){
+  #bar{padding-inline:2px}
+  #tm{min-width:94px;height:44px;font-size:1.3rem}
+  #bar > span{gap:4px}
+}
+@media(prefers-reduced-motion:reduce){
+  #bar,#bar > span,#pb,#game.hide,#game:not(.hide),#end:not(.hide),#tm.low{animation:none!important}
+  #pb i:after{display:none}
+}
+</style>
+
+</head>
+<body><div aria-hidden="true" style="position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden"><i style="position:absolute;width:18px;height:18px;border-radius:50%;left:12%;top:28%;background:rgba(255,255,255,.18);animation:bob 5s ease-in-out infinite"></i><i style="position:absolute;width:11px;height:11px;border-radius:50%;right:18%;top:42%;background:rgba(180,220,255,.2);animation:bob 4s 1s ease-in-out infinite"></i></div>
+<div id="splash"><div class="g">⚖️</div><h1>قاضی شو</h1><p>برای شروع کلیک کنید</p></div>
+<div id="ov" class="hide"><div class="card" id="ovc"></div></div>
+<div id="toast"></div>
+<div class="w">
+<div id="setup" class="hide">
+  <h1><span class="g">⚖️</span>قاضی شو</h1>
+  <div class="sub">تو قاضی هستی. حقیقت رو پیدا کن.</div>
+  <div class="card"><h3>حالت بازی</h3><div class="opts" id="md"></div><div class="mut" id="mh" style="margin-top:8px"></div></div>
+  <div id="cfg">
+    <div class="card"><h3>نوع پرونده</h3><div class="opts" id="ty"></div></div>
+    <div class="card"><h3>سطح دشواری</h3><div class="opts" id="lv"></div></div>
+  </div>
+  <div class="card hide" id="jb"><h3>کد اتاق</h3><input id="jc" placeholder="کد دوستت رو وارد کن" style="text-align:center;letter-spacing:4px;direction:ltr;text-transform:uppercase" maxlength="5"></div>
+  <button class="pri" id="go">تشکیل پرونده</button>
+  <div class="mut" id="err" style="text-align:center;margin-top:10px"></div>
+</div>
+<div id="wait" class="hide">
+  <div class="card" style="text-align:center"><h3>🌐 اتاق ساخته شد</h3>
+    <div class="mut">این کد رو به دوستت بده تا با گزینه‌ی «ورود با کد» وارد بشه</div>
+    <div class="code" id="wc"></div>
+    <div class="mut caret">منتظر ورود قاضی دوم</div></div>
+</div>
+<div id="game" class="hide">
+  <div id="bar"><b id="ttl"></b><span style="display:flex;gap:6px;align-items:center"><button class="ic" id="pz">⏸</button><button class="ic" id="vc" title="خواندن صوتی پاسخ‌ها">🔇</button><span id="tm">20:00</span></span></div>
+  <div id="pb"><i id="pi"></i></div>
+  <div id="trn" class="hide"></div>
+  <div class="card" id="sum"></div>
+  <div class="tabs" id="tabs"></div>
+  <div class="card" id="chat">
+    <div id="who" class="mut"></div>
+    <div id="log"></div>
+    <div class="row" style="margin-top:8px"><button class="ic" id="mic" title="سؤال صوتی">🎙️</button><input id="q" placeholder="سؤالت رو بپرس..."><button class="pri" style="width:auto" id="send">بپرس</button></div>
+  </div>
+  <div class="card"><h3>🔎 سرنخ‌های کشف‌شده <span class="mut" id="cc"></span></h3><div id="cl"></div></div>
+  <button class="pri" id="verd">صدور حکم</button>
+</div>
+<div id="end" class="hide">
+  <div class="card" id="vf"><h3 id="vt">حکم نهایی</h3>
+    <div class="mut">کدام‌یک مقصر است / حق با کیست؟</div>
+    <div class="opts" id="vo" style="margin:8px 0"></div>
+    <textarea id="why" rows="4" placeholder="دلیل حکمت رو بنویس..."></textarea>
+    <button class="pri" id="fin" style="margin-top:10px">ثبت حکم</button>
+  </div>
+  <div class="card hide" id="vw"><div class="mut caret">سازنده‌ی اتاق داره حکم نهایی رو می‌نویسه</div></div>
+  <div class="card hide" id="res"></div>
+  <button class="pri hide" id="again">پرونده جدید</button>
+</div>
+</div>
+
+
+<script>
+const TY=["کیفری","حقوقی","خانواده","تصادفی"],LV=["آسان","متوسط","سخت","تصادفی"];
+let ty=3,lv=3,mode=0,C=null,R=null,cur=0,M=[],started=false,tick=null,paused=false,voice=false,pick=null,left=1200;
+let peer=null,conn=null,roomCode="",isHost=false,connected=false,myVote=null,peerVote=null,connecting=false,connectTimer=null;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+function toast(t){const e=$("toast");e.textContent=t;e.classList.add("on");setTimeout(()=>e.classList.remove("on"),2400)}
+function tw(el,text,done){let i=0;el.classList.add("caret");const t=setInterval(()=>{el.textContent=text.slice(0,++i);if(i>=text.length){clearInterval(t);el.classList.remove("caret");done&&done()}},12)}
+function say(t){if(!voice||!window.speechSynthesis)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang="fa-IR";speechSynthesis.speak(u)}catch(e){}}
+function opts(el,arr,get,set,dice){el.innerHTML="";arr.forEach((t,i)=>{const b=document.createElement("button");b.textContent=t+(dice&&i===3?" 🎲":"");b.className=get()===i?"on":"";b.onclick=()=>{set(i);opts(el,arr,get,set,dice)};el.appendChild(b)})}
+
+const CASES=[
+{type:"کیفری",level:"آسان",title:"پرونده ساعت ناپدیدشده",summary:"در یک مهمانی خانوادگی، ساعت قدیمی و ارزشمند صاحب‌خانه از داخل اتاق مطالعه ناپدید شده است. چهار نفر به اتاق دسترسی داشته‌اند. یکی از آن‌ها دروغ می‌گوید، اما انگیزه‌اش آن چیزی نیست که در ابتدا به نظر می‌رسد.",people:[
+{id:0,name:"کامران",role:"صاحب‌خانه",persona:"عصبی و مالکانه؛ سریع دفاعی می‌شود.",secret:"قبل از مهمانی ساعت را برای فروش پنهانی قیمت‌گذاری کرده بود."},
+{id:1,name:"نسترن",role:"خواهرزاده",persona:"خونسرد اما نگران؛ جواب‌ها را کوتاه می‌دهد.",secret:"ساعت را برداشته بود تا بدهی‌اش را جور کند، اما بعد پشیمان شد و آن را در گلدان پنهان کرد."},
+{id:2,name:"بهرام",role:"دوست خانوادگی",persona:"شوخ و پرحرف؛ دوست دارد موضوع را عوض کند.",secret:"کلید یدکی اتاق را داشته ولی چیزی ندزدیده است."},
+{id:3,name:"مینا",role:"مهمان",persona:"دقیق و محتاط.",secret:"دیده نسترن از اتاق بیرون آمده، اما اولش از ترس دردسر چیزی نگفته است."}],clues:["کلید یدکی اتاق دست بهرام بوده است.","ساعت در ابتدا برای فروش قیمت‌گذاری شده بود.","نسترن بعد از خروج از اتاق چیزی شبیه جعبه را حمل می‌کرد.","ساعت در گلدان بزرگ راهرو پیدا می‌شود."],truth:"نسترن ساعت را از اتاق برداشت تا آن را بفروشد، اما قبل از خروج از خانه پشیمان شد و ساعت را در گلدان پنهان کرد. کامران نیز درباره قصد قبلی‌اش برای فروش ساعت دروغ گفته بود.",at_fault:1},
+{type:"حقوقی",level:"متوسط",title:"قرارداد کافه باران",summary:"دو شریک بر سر مالکیت یک کافه اختلاف دارند. هر دو نسخه‌ای از قرارداد را ارائه می‌کنند و هر دو ادعا می‌کنند نسخه دیگری دستکاری شده است. یک شاهد کلیدی چیزی را از دادگاه پنهان کرده است.",people:[
+{id:0,name:"سامان",role:"شریک اول",persona:"مطمئن و تهاجمی؛ مدام به بندهای قرارداد اشاره می‌کند.",secret:"یک پیوست قرارداد را بدون اطلاع شریک امضا کرده بود."},
+{id:1,name:"لیلا",role:"شریک دوم",persona:"آرام و حسابگر.",secret:"نسخه اصلی قرارداد را نزد حسابدار گذاشته بود."},
+{id:2,name:"رضا",role:"حسابدار",persona:"مردد و محتاط.",secret:"نسخه اصلی را دارد و تاریخ واقعی امضا را می‌داند."},
+{id:3,name:"نگار",role:"وکیل",persona:"دقیق و رسمی.",secret:"متوجه شده امضای یکی از پیوست‌ها با روز قرارداد هم‌خوانی ندارد."}],clues:["نسخه اصلی نزد حسابدار بوده است.","تاریخ پیوست با تاریخ قرارداد اصلی یکی نیست.","امضای پیوست در روز قرارداد ثبت نشده است.","نسخه ارائه‌شده توسط سامان پیوست مشکوک دارد."],truth:"پیوست مورد اختلاف پس از قرارداد اصلی تهیه شده و سامان آن را بدون اطلاع لیلا امضا کرده بود. نسخه اصلی نزد رضا باقی مانده و تاریخ ثبت‌شده با ادعای سامان سازگار نیست.",at_fault:0},
+{type:"خانواده",level:"سخت",title:"راز ارث خانه قدیمی",summary:"پس از مرگ مادربزرگ، میان سه وارث بر سر یک وصیت‌نامه دست‌نویس اختلاف ایجاد شده است. وصیت‌نامه ظاهراً به نفع یکی از آن‌هاست، اما جزئیات کاغذ و زمان نوشتن آن سؤال‌برانگیز است.",people:[
+{id:0,name:"آرمان",role:"نوه بزرگ",persona:"احساسی و تند.",secret:"از وجود صندوقچه قدیمی خبر دارد."},
+{id:1,name:"سارا",role:"نوه دوم",persona:"آرام و منطقی.",secret:"آخرین نفری بوده که مادربزرگ را دیده و صدای چاپگر را شنیده است."},
+{id:2,name:"پویا",role:"نوه سوم",persona:"مضطرب و دفاعی.",secret:"وصیت‌نامه را پیدا کرده اما قبل از تحویل، از آن عکس گرفته است."},
+{id:3,name:"دکتر فرهمند",role:"پزشک خانواده",persona:"رسمی و دقیق.",secret:"دست‌خط مادربزرگ را می‌شناسد و تفاوتی در بخش پایانی دیده است."},
+{id:4,name:"مهتاب",role:"همسایه",persona:"حافظه‌محور و جزئی‌نگر.",secret:"آن شب پویا را نزدیک اتاق کار دیده است."}],clues:["کاغذ وصیت‌نامه از همان دفتر قدیمی نیست.","صدای چاپگر شب قبل شنیده شده است.","بخش پایانی دست‌خط متفاوتی دارد.","پویا پیش از تحویل از وصیت‌نامه عکس گرفته بود.","پویا نزدیک اتاق کار دیده شده است."],truth:"پویا وصیت‌نامه را پیدا کرد و برای پنهان کردن تغییرات، بخش پایانی را بازنویسی و چاپ کرد. او نسخه اصلی را نیز پنهان کرده بود. انگیزه‌اش ترس از دست دادن سهم ارث بود.",at_fault:2},
+{type:"کیفری",level:"سخت",title:"پرونده نقاشی خاموش",summary:"یک نقاشی گران‌قیمت از گالری خصوصی ناپدید شده است. دوربین دقیقاً هفت دقیقه خاموش بوده و هر چهار نفر روایت متفاوتی از آن بازه زمانی دارند.",people:[
+{id:0,name:"یونس",role:"مدیر گالری",persona:"کنترل‌گر و رسمی.",secret:"دوربین را برای تعمیر خاموش کرده بود ولی این را پنهان می‌کند."},
+{id:1,name:"هانیه",role:"مرمت‌گر",persona:"دقیق و کم‌حرف.",secret:"می‌دانسته قاب نقاشی فضای خالی مخفی دارد."},
+{id:2,name:"میلاد",role:"مشتری",persona:"عجول و متظاهر.",secret:"برای خرید نقاشی پول کافی نداشته است."},
+{id:3,name:"شهاب",role:"نگهبان",persona:"مردد و خسته.",secret:"در هفت دقیقه درِ پشتی را باز گذاشته بود."}],clues:["دوربین عمداً برای تعمیر خاموش شده بود.","قاب نقاشی فضای خالی پشتی داشته است.","در پشتی هفت دقیقه باز بوده است.","اثر بدون شکستن قاب از آن خارج شده است."],truth:"هانیه با استفاده از فضای مخفی پشت قاب، نقاشی را خارج کرد. خاموشی دوربین توسط یونس فرصت را ایجاد کرد و در پشتی باز توسط شهاب باعث شد خروج بدون جلب توجه ممکن شود.",at_fault:1}
+];
+
+function chooseCase(){
+  let type=ty===3?TY[Math.floor(Math.random()*3)]:TY[ty];
+  let level=lv===3?LV[Math.floor(Math.random()*3)]:LV[lv];
+  let pool=CASES.filter(c=>c.type===type&&c.level===level);
+  if(!pool.length)pool=CASES.filter(c=>c.type===type);
+  if(!pool.length)pool=CASES;
+  return structuredClone(pool[Math.floor(Math.random()*pool.length)]);
+}
+
+function setupModes(){
+  opts($("ty"),TY,()=>ty,v=>ty=v,1);
+  opts($("lv"),LV,()=>lv,v=>lv=v,1);
+  opts($("md"),["تک‌نفره","دو نفره · سازنده اتاق 👑","دو نفره · ورود با کد 🔑"],()=>mode,v=>{mode=v;updateMode()},0);
+  updateMode();
+}
+function updateMode(){
+  $("jb").classList.toggle("hide",mode!==2);
+  $("cfg").classList.toggle("hide",mode===2);
+  $("go").textContent=mode===0?"تشکیل پرونده":mode===1?"ساخت اتاق":"ورود به اتاق";
+  $("mh").textContent=mode===0?"بازی آفلاین تک‌نفره است.":mode===1?"یک اتاق آنلاین بساز و کد را برای دوستت بفرست.":"کد اتاق دوستت را وارد کن و به همان پرونده وصل شو.";
+}
+function initApp(){
+  setupModes();
+  $("splash").onclick=()=>{$("splash").style.opacity=0;setTimeout(()=>{$("splash").classList.add("hide");$("setup").classList.remove("hide")},350)};
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initApp,{once:true});else initApp();
+
+function makeCode(){return Math.random().toString(36).slice(2,7).toUpperCase()}
+function peerFail(e){
+  console.error(e);
+  const msg=(e&&e.type==="peer-unavailable")?"این کد اتاق پیدا نشد یا منقضی شده است.":"ارتباط آنلاین برقرار نشد. ممکن است سرویس اتصال در شبکه شما مسدود باشد.";
+  $("err").textContent=msg;toast(msg);connecting=false;clearTimeout(connectTimer);
+  connected=false;
+  try{if(conn)conn.close()}catch(e){}
+  try{if(peer)peer.destroy()}catch(e){}
+  conn=null;peer=null;
+}
+function send(o){if(conn&&conn.open)conn.send(o)}
+function showWait(code){
+  $("setup").classList.add("hide");$("wait").classList.remove("hide");$("wc").textContent=code;
+}
+function beginGame(){
+  $("wait").classList.add("hide");$("setup").classList.add("hide");$("end").classList.add("hide");$("game").classList.remove("hide");
+  $("game").classList.remove("timer-exit");
+  started=true;pick=null;myVote=null;peerVote=null;paused=false;
+  $("ttl").textContent=C.title;
+  $("sum").innerHTML=`<b>${esc(C.type)} · ${esc(C.level)}</b><br><span id="st"></span>`;
+  tw($("st"),C.summary);
+  $("tabs").innerHTML="";
+  C.people.forEach((p,i)=>{const b=document.createElement("button");b.innerHTML=`<span class="av">${esc(p.name[0])}</span>${esc(p.name)} <span class="mut">· ${esc(p.role)}</span>`;b.onclick=()=>sel(i);b.id="t"+i;$("tabs").appendChild(b)});
+  sel(0);clearInterval(tick);tick=setInterval(draw,500);draw();updateTurn();
+}
+function startSingle(){
+  C=chooseCase();R={phase:"play",startedAt:Date.now(),verdict:null};M=[];left=1200;beginGame();
+}
+function hostRoom(){
+  if(typeof Peer==="undefined"){toast("کتابخانه اتصال آنلاین بارگذاری نشده است");$("err").textContent="برای بازی آنلاین، مرورگر باید بتواند کتابخانه اتصال را بارگذاری کند.";return}
+  isHost=true;roomCode=makeCode();$("err").textContent="در حال ساخت اتاق...";connecting=true;
+  try{
+    peer=new Peer(roomCode,{host:"0.peerjs.com",port:443,path:"/",secure:true,debug:0,config:{iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun1.l.google.com:19302"}]}});
+    peer.on("open",id=>{clearTimeout(connectTimer);connecting=false;roomCode=id;showWait(id);$("err").textContent="کد را برای دوستت بفرست. منتظر ورود او هستیم...";});
+    peer.on("disconnected",()=>{if(connecting)$("err").textContent="اتصال به سرویس اتاق قطع شد؛ دوباره تلاش کن.";});
+    peer.on("close",()=>{connected=false;if(connecting)$("err").textContent="اتصال سرویس اتاق بسته شد.";});
+    peer.on("connection",c=>{
+      if(conn){c.close();return}
+      conn=c;conn.on("open",()=>{
+        connected=true;
+        C=chooseCase();R={phase:"play",startedAt:Date.now(),turn:0,verdict:null};
+        M=[];left=1200;
+        send({type:"WELCOME",caseData:C,room:R});
+        beginGame();broadcast();
+        toast("قاضی دوم وارد شد؛ بازی شروع شد");
+      });
+      conn.on("data",handleData);conn.on("close",()=>{connected=false;toast("ارتباط دوستت قطع شد")});
+      conn.on("error",peerFail);
+    });
+    peer.on("error",peerFail);
+    connectTimer=setTimeout(()=>{if(connecting){connecting=false;$("err").textContent="ساخت اتاق بیشتر از ۱۲ ثانیه طول کشید. احتمالاً سرویس اتصال در این شبکه در دسترس نیست.";toast("اتصال آنلاین در دسترس نیست")}},12000);
+  }catch(e){peerFail(e)}
+}
+function joinRoom(){
+  const code=$("jc").value.trim().toUpperCase();
+  if(code.length<4){toast("کد اتاق را وارد کن");return}
+  if(typeof Peer==="undefined"){toast("کتابخانه اتصال آنلاین بارگذاری نشده است");$("err").textContent="برای بازی آنلاین، مرورگر باید بتواند کتابخانه اتصال را بارگذاری کند.";return}
+  isHost=false;roomCode=code;$("err").textContent="در حال اتصال به اتاق...";connecting=true;
+  try{
+    peer=new Peer({host:"0.peerjs.com",port:443,path:"/",secure:true,debug:0,config:{iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun1.l.google.com:19302"}]}});
+    peer.on("open",()=>{
+      conn=peer.connect(code,{reliable:true,serialization:"json"});
+      if(!conn){peerFail({type:"peer-unavailable"});return}
+      conn.on("open",()=>{clearTimeout(connectTimer);connecting=false;connected=true;$("err").textContent="";toast("وصل شدی؛ بازی شروع می‌شود...");});
+      conn.on("data",handleData);conn.on("close",()=>{connected=false;toast("ارتباط با سازنده قطع شد")});conn.on("error",peerFail);
+    });
+    peer.on("error",peerFail);
+    connectTimer=setTimeout(()=>{if(connecting){connecting=false;$("err").textContent="اتصال بیشتر از ۱۵ ثانیه طول کشید. اگر در ایران هستی، ممکن است سرویس اتصال مسدود باشد؛ با شبکه دیگری امتحان کن.";toast("اتصال برقرار نشد")}},15000);
+  }catch(e){peerFail(e)}
+}
+$("go").onclick=()=>{if(mode===0)startSingle();else if(mode===1)hostRoom();else joinRoom()};
+
+function snapshot(){
+  return {C,R,M,left};
+}
+function broadcast(){send({type:"STATE",state:snapshot()})}
+function applyState(s){
+  C=s.C;R=s.R;M=s.M||[];left=s.left||1200;
+  if($("game").classList.contains("hide"))beginGame();
+  else {render();draw();updateTurn();syncTabs()}
+  if(R.phase==="verdict" && $("end").classList.contains("hide"))showEnd(false);
+  if(R.phase==="done"&&R.result)showResult(R.result);
+}
+function handleData(d){
+  if(!d)return;
+  if(d.type==="WELCOME"){C=d.caseData;R=d.room;M=[];left=1200;beginGame();return}
+  if(d.type==="STATE"){applyState(d.state);return}
+  if(d.type==="VERDICT"){
+    if(R&&R.phase==="play"){showEnd(false);if(isHost)broadcast()}
+    return;
+  }
+  if(!isHost)return;
+  if(d.type==="ASK"){
+    if(R.phase!=="play"||R.turn!==1)return;
+    processQuestion(1,d.pi,d.text);
+  }else if(d.type==="VOTE"){
+    peerVote=d.vote;finishIfVotes();
+  }else if(d.type==="PAUSE"){
+    if(R.phase==="play"){paused=!!d.value;R.pausedAt=Date.now();broadcast()}
+  }
+}
+function syncTabs(){C.people.forEach((_,j)=>{const e=$("t"+j);if(e)e.className=j===cur?"on":""})}
+function fmt(s){s=Math.max(0,Math.floor(s));return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+function draw(){
+  if(!R||R.phase!=="play"||paused)return;
+  if(isHost){
+    left=Math.max(0,1200-Math.floor((Date.now()-R.startedAt)/1000));
+    if(left<=0){left=0;R.phase="verdict";broadcast();showEnd();return}
+  }
+  $("tm").textContent=fmt(left);$("tm").className=left<180?"low":"";$("pi").style.width=(left/12)+"%";
+}
+function updateTurn(){
+  if(!R)return;
+  const t=$("trn");
+  if(mode===0){t.classList.add("hide");return}
+  t.classList.remove("hide");
+  const mine=isHost?(R.turn===0):(R.turn===1);
+  t.textContent=mine?"🟢 نوبت توست — سؤال بپرس":"🟡 نوبت دوستت است — منتظر بمان";
+  $("send").disabled=!mine||R.phase!=="play";
+  $("q").disabled=!mine||R.phase!=="play";
+}
+function sel(i){cur=i;syncTabs();$("who").textContent=C.people[i].name+" — "+C.people[i].role;render()}
+let shown=new Set(),clueSet=new Set(),rcur=-1;
+function key(m){return m.ts+"|"+m.pi+"|"+m.role+"|"+m.content}
+function addMsg(m,anim){
+  const e=$("emp");if(e)e.remove();shown.add(key(m));
+  const d=document.createElement("div");d.className="msg "+(m.role==="user"?"me":"ot");
+  const s=document.createElement("span");d.appendChild(s);$("log").appendChild(d);
+  if(anim&&m.role==="assistant"){tw(s,m.content,()=>say(m.content))}else s.textContent=m.content;
+  d.scrollIntoView({block:"nearest"});
+}
+function render(){
+  const h=M.filter(m=>m.pi===cur);
+  if(rcur!==cur){rcur=cur;$("log").innerHTML="";shown=new Set();if(!h.length)$("log").innerHTML='<div class="mut" id="emp">با این شخص صحبت کن...</div>';h.forEach(m=>addMsg(m,false))}
+  else h.forEach(m=>{if(!shown.has(key(m)))addMsg(m,true)});
+  const cl=[...new Set(M.filter(m=>m.clue).map(m=>m.clue))];
+  $("cl").innerHTML="";
+  if(!cl.length)$("cl").innerHTML='<div class="mut" id="nc">هنوز چیزی پیدا نشده. از افراد سؤال بپرس.</div>';
+  $("cc").textContent="· "+cl.length+" از "+C.clues.length;
+  cl.forEach(c=>{const d=document.createElement("div");d.className="clue";d.textContent=c;$("cl").appendChild(d)});
+}
+function answerFor(p,v){
+  const q=v.toLowerCase(),is=(...w)=>w.some(x=>q.includes(x));let clue=null,reply="";
+  const cm=C.clues,idx=p.id;
+  if(idx===C.at_fault){
+    if(is("چرا","انگیزه","دلیل","هدف")){reply=p.secret;clue=cm.find(x=>x.includes("انگیزه")||x.includes("فروش")||x.includes("سهم")||x.includes("بازنویسی"))||cm[1]}
+    else if(is("کجا","کجاست","پیدا","شیء","مدرک","ساعت","وصیت","نقاشی"))reply="من... چیزی درباره محلش نمی‌دانم. شاید باید از کسی که بعد از من وارد شد بپرسی.";
+    else if(is("دید","دیدی","چه کسی","کی","چه اتفاق"))reply="تا جایی که یادم هست کسی را ندیدم؛ بهتر است از شاهدها هم بپرسی.";
+    else reply="سؤال سختی است. من فقط می‌توانم بگویم آن شب اوضاع عادی نبود.";
+  }else{
+    if(is("کلید","در","اتاق"))clue=cm.find(x=>x.includes("کلید")||x.includes("در"))||null;
+    else if(is("قرارداد","پیوست","امضا","تاریخ"))clue=cm.find(x=>x.includes("تاریخ")||x.includes("امضا")||x.includes("پیوست"))||null;
+    else if(is("چاپ","کاغذ","دست خط","دست‌خط","وصیت"))clue=cm.find(x=>x.includes("کاغذ")||x.includes("چاپ")||x.includes("دست‌خط"))||null;
+    else if(is("دوربین","قاب","پشتی","هفت دقیقه"))clue=cm.find(x=>x.includes("دوربین")||x.includes("قاب")||x.includes("پشتی"))||null;
+    else if(is("دید","دیدی","شاهد","چه کسی"))clue=cm.find(x=>x.includes("دیده")||x.includes("شاهد"))||null;
+    if(clue)reply="بله، درباره این موضوع یک نکته مهم می‌دانم: "+clue;
+    else if(is("کجا","محل","پیدا"))reply="محل دقیق را نمی‌دانم، اما اگر ترتیب رفت‌وآمدها را بررسی کنی شاید سرنخ خوبی پیدا کنی.";
+    else reply=p.secret.includes("ولی")?p.secret:"چیز غیرعادی‌ای به یاد ندارم. شاید سؤال را دقیق‌تر بپرسی.";
+  }
+  return {reply:reply||"جواب روشنی برای این سؤال ندارم.",clue};
+}
+function processQuestion(player,pi,v){
+  const p=C.people[pi],a=answerFor(p,v);
+  M.push({ts:Date.now()+Math.random(),pi,role:"user",content:v,by:player});
+  M.push({ts:Date.now()+Math.random(),pi,role:"assistant",content:a.reply,clue:a.clue||null,by:player});
+  R.turn=R.turn===0?1:0;left=Math.max(0,1200-Math.floor((Date.now()-R.startedAt)/1000));
+  broadcast();render();updateTurn();
+}
+async function ask(){
+  const v=$("q").value.trim();if(!v||paused||!R||R.phase!=="play")return;
+  const pi=cur;$("q").value="";
+  if(mode===0){
+    $("send").disabled=true;M.push({ts:Date.now()+Math.random(),pi,role:"user",content:v});render();
+    await new Promise(r=>setTimeout(r,350+Math.random()*500));
+    const a=answerFor(C.people[pi],v);M.push({ts:Date.now()+Math.random(),pi,role:"assistant",content:a.reply,clue:a.clue||null});render();$("send").disabled=false;return;
+  }
+  const mine=isHost?(R.turn===0):(R.turn===1);if(!mine){toast("الان نوبت دوستته");return}
+  if(isHost)processQuestion(0,pi,v);else send({type:"ASK",pi,text:v});
+}
+$("send").onclick=ask;$("q").onkeydown=e=>{if(e.key==="Enter")ask()};
+$("pz").onclick=()=>{
+  if(mode===0){paused=!paused;if(paused){$("pz").textContent="▶️";R.pausedAt=Date.now();toast("بازی متوقف شد")}else{$("pz").textContent="⏸";R.startedAt+=Date.now()-R.pausedAt;toast("بازی ادامه پیدا کرد")}return}
+  if(isHost){paused=!paused;$("pz").textContent=paused?"▶️":"⏸";R.paused=paused;R.pausedAt=Date.now();send({type:"PAUSE",value:paused});toast(paused?"بازی متوقف شد":"بازی ادامه پیدا کرد")}
+  else send({type:"PAUSE",value:true});
+};
+$("vc").onclick=()=>{voice=!voice;$("vc").textContent=voice?"🔊":"🔇";$("vc").classList.toggle("on",voice);if(!voice&&window.speechSynthesis)speechSynthesis.cancel()};
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+$("mic").onclick=()=>{if(!SR){toast("تشخیص گفتار در این مرورگر پشتیبانی نمی‌شود");return}try{const r=new SR();r.lang="fa-IR";r.onresult=e=>$("q").value=e.results[0][0].transcript;r.onerror=()=>toast("دسترسی به میکروفون ممکن نشد");r.start()}catch(e){toast("میکروفون در دسترس نیست")}};
+$("verd").onclick=()=>{if(!R||R.phase!=="play")return;showEnd()};
+function showEnd(notify=true){
+  clearInterval(tick);if(R)R.phase="verdict";
+  $("game").classList.add("hide");$("end").classList.remove("hide");$("vf").classList.remove("hide");$("vw").classList.add("hide");$("res").classList.add("hide");$("again").classList.add("hide");
+  $("vo").innerHTML="";pick=null;
+  C.people.forEach((p,i)=>{const b=document.createElement("button");b.textContent=p.name+" · "+p.role;b.onclick=()=>{pick=i;[...$("vo").children].forEach((x,j)=>x.className=j===i?"on":"")};$("vo").appendChild(b)});
+  if(mode!==0){$("vf").querySelector(".mut").textContent=isHost?"حکم خودت را ثبت کن؛ دوستت هم رأی می‌دهد.":"حکم خودت را ثبت کن؛ نتیجه بعد از رأی هر دو نفر نمایش داده می‌شود."}
+  if(notify && mode!==0 && connected)send({type:"VERDICT"});
+}
+function showResult(result){
+  $("game").classList.add("hide");$("end").classList.remove("hide");$("vf").classList.add("hide");$("vw").classList.add("hide");$("res").classList.remove("hide");$("again").classList.remove("hide");
+  $("res").innerHTML=result.html;
+}
+function finishIfVotes(){
+  if(!isHost||myVote===null||peerVote===null)return;
+  const f=C.people[C.at_fault],v0=C.people[myVote],v1=C.people[peerVote];
+  const bothCorrect=myVote===C.at_fault&&peerVote===C.at_fault;
+  const result={html:`<h3>${bothCorrect?"✅ هر دو حکم درست بود":"⚖️ رأی‌ها ثبت شد"}</h3><div>رأی سازنده: <b>${esc(v0.name)}</b></div><div>رأی قاضی دوم: <b>${esc(v1.name)}</b></div><div class="mut">مقصر واقعی: <b>${esc(f.name)}</b></div><div class="clue">${esc(C.truth)}</div>`};
+  R.phase="done";R.result=result;broadcast();showResult(result);
+}
+$("fin").onclick=()=>{
+  if(pick===null){toast("یکی رو انتخاب کن");return}
+  myVote=pick;
+  if(mode===0){
+    const ok=pick===C.at_fault,p=C.people[pick],f=C.people[C.at_fault];
+    showResult({html:`<h3>${ok?"✅ حکم درست بود":"❌ حکم اشتباه بود"}</h3><div>حکم تو: <b>${esc(p.name)}</b></div>${$("why").value.trim()?`<div class="mut">«${esc($("why").value.trim())}»</div>`:""}<div class="mut">سرنخ‌های کشف‌شده: ${[...new Set(M.filter(m=>m.clue).map(m=>m.clue))].length} از ${C.clues.length}</div><div style="margin-top:8px">مقصر واقعی: <b>${esc(f.name)}</b></div><div class="clue">${esc(C.truth)}</div>`});return;
+  }
+  if(isHost){finishIfVotes();if(peerVote===null){$("vf").classList.add("hide");$("vw").classList.remove("hide");$("vw").innerHTML='<div class="mut caret">منتظر رأی قاضی دوم...</div>'}}
+  else {send({type:"VOTE",vote:pick});$("vf").classList.add("hide");$("vw").classList.remove("hide");$("vw").innerHTML='<div class="mut caret">رأی تو ثبت شد؛ منتظر رأی سازنده...</div>'}
+};
+$("again").onclick=()=>location.reload();
+
+setInterval(()=>{
+  if(isHost&&R&&R.phase==="play"&&connected){left=Math.max(0,1200-Math.floor((Date.now()-R.startedAt)/1000));send({type:"CLOCK",left})}
+},2000);
+</script>
+
+
+<script>
+window.addEventListener("offline",()=>{if($("err"))$("err").textContent="اتصال اینترنت قطع است."});
+</script>
+</body>
+</html>
